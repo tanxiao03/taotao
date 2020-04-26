@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.taotao.mapper.TbItemMapper">
-    <update id="updateItemByIds">
+    <update id="updataItemById">
         UPDATE tbitem SET status = #{type} ,updated = #{date}
         <where>
             <foreach collection="ids" open="id in(" close=")" separator="," item="id">
@@ -12,4 +12,36 @@
             </foreach>
         </where>
     </update>
+
+    <select id="findTbItemBySearch" resultType="com.taotao.pojo.TbItem">
+        SELECT * FROM tbitem
+        <where>
+            <if test="title != ''">
+                title LIKE "%${title}%" AND
+            </if>
+            price BETWEEN #{priceMin} AND #{priceMax}
+            <if test="cid != null">
+                AND cid = #{cid}
+            </if>
+        </where>
+        LIMIT #{page},#{limit}
+    </select>
+
+    <select id="findTbItemCountBySearch" resultType="int">
+        SELECT count(*) FROM tbitem
+        <where>
+            <if test="title != ''">
+                title LIKE "%${title}%" AND
+            </if>
+            price BETWEEN #{priceMin} AND #{priceMax}
+            <if test="cid != null">
+                AND cid = #{cid}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addItem">
+        INSERT INTO tbitem (id, title, sellPoint, price, num, barcode, image, cId, status, created, updated) VALUES
+              (#{id},#{title},#{sellPoint},#{price},#{num},#{barcode},#{image},#{cId},#{status},#{created},#{updated})
+    </insert>
 </mapper>

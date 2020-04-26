@@ -18,13 +18,39 @@ public class TbItem implements Serializable{
 
     private String image;
 
-    private Long cid;
+    private Long cId;
 
     private Byte status;
 
     private Date created;
 
     private Date updated;
+
+
+	@Override
+	public String toString() {
+		return "TbItem{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", sellPoint='" + sellPoint + '\'' +
+				", price=" + price +
+				", num=" + num +
+				", barcode='" + barcode + '\'' +
+				", image='" + image + '\'' +
+				", cId=" + cId +
+				", status=" + status +
+				", created=" + created +
+				", updated=" + updated +
+				'}';
+	}
+
+	public Long getcId() {
+		return cId;
+	}
+
+	public void setcId(Long cId) {
+		this.cId = cId;
+	}
 
 	public Long getId() {
 		return id;
@@ -84,13 +110,7 @@ public class TbItem implements Serializable{
 
 	
 
-	public Long getCid() {
-		return cid;
-	}
 
-	public void setCid(Long cid) {
-		this.cid = cid;
-	}
 
 	public Byte getStatus() {
 		return status;
@@ -116,12 +136,7 @@ public class TbItem implements Serializable{
 		this.updated = updated;
 	}
 
-	@Override
-	public String toString() {
-		return "TbItem [id=" + id + ", title=" + title + ", sellPoint=" + sellPoint + ", price=" + price + ", num="
-				+ num + ", barcode=" + barcode + ", image=" + image + ", cId=" + cid + ", status=" + status
-				+ ", created=" + created + ", updated=" + updated + "]";
-	}
+
 
 
 	

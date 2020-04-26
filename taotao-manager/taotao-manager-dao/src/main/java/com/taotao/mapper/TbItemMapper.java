@@ -13,27 +13,18 @@ public interface TbItemMapper {
     @Select("SELECT * FROM tbitem WHERE id = #{id}")
     TbItem findTbItemById(Long itemId);
 
+    @Select("SELECT * FROM tbitem LIMIT #{i},#{limit}")
+    List<TbItem> findTbItemByPage(@Param("i") int i, @Param("limit") Integer limit);
 
-    /**
-     * 获取数据总数的方法(操作数据库)
-     * @return
-     */
-    @Select("SELECT COUNT(id) FROM tbitem")
+    @Select("SELECT COUNT(*) FROM tbitem")
     int findTbItemByCount();
 
+    int updataItemById(@Param("ids") List<Long> ids, @Param("date")Date date, @Param("type")int type);
 
-    /**
-     * 分页查询数据的方法(操作数据库)
-     */
-    @Select("SELECT * FROM tbitem LIMIT #{index},#{pagesize}")
-    List<TbItem> findTbItemByPage(@Param("index") int index, @Param("pagesize") int pagesize);
+    List<TbItem> findTbItemBySearch(@Param("page")Integer page, @Param("limit")Integer limit, @Param("title")String title, @Param("priceMin")Integer priceMin, @Param("priceMax")Integer priceMax, @Param("cid")Long cid);
 
-    /**
-     * 商品修改
-     * @param ids
-     * @param type
-     * @param date
-     * @return
-     */
-    int updateItemByIds(@Param("ids") List<Long> ids, @Param("type")int type, @Param("date")Date date);
+
+    int findTbItemCountBySearch(@Param("title")String title, @Param("priceMin")Integer priceMin, @Param("priceMax")Integer priceMax, @Param("cid")Long cid);
+
+    int addItem(TbItem tbItem);
 }

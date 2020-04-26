@@ -1,6 +1,13 @@
 package com.taotao.mapper;
 
 
-public interface TbItemCatMapper {
+import com.taotao.pojo.TbItemCat;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
+public interface TbItemCatMapper {
+    @Select("SELECT * FROM tbitemcat WHERE parentId = #{id}")
+    List<TbItemCat> findZtree(@Param("id") Long id);
 }
