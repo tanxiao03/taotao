@@ -1,9 +1,14 @@
 package com.taotao.service.impl;
 
+
 import com.taotao.mapper.TbItemCatMapper;
 import com.taotao.pojo.*;
 import com.taotao.service.ItemCatService;
+import com.taotao.service.JedisClient;
+import com.taotao.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,7 +18,10 @@ import java.util.List;
 public class ItemCatServiceImpl implements ItemCatService {
     @Autowired
     private TbItemCatMapper tbItemCatMapper;
-
+    @Autowired
+    private JedisClient jedisClient;
+    @Value("ITEMCAT")
+    private String ITEMCAT;
 
     @Override
     public List<ItemCatResult> findZtree(Long id) {
@@ -38,7 +46,15 @@ public class ItemCatServiceImpl implements ItemCatService {
     @Override
     public QianDuan1 findItemCat() {
         QianDuan1 qianDuan1 = new QianDuan1();
-        qianDuan1.setData(getItemCatList(0L));
+        String json = jedisClient.get(ITEMCAT);
+        if (StringUtils.isNotBlank(json)){
+            List list = JsonUtils.jsonToPojo(json,List.class);
+            qianDuan1.setData(list);
+            return qianDuan1;
+        }
+        List<?> list = getItemCatList(0L);
+        qianDuan1.setData(list);
+        jedisClient.set(ITEMCAT,JsonUtils.objectToJson(list));
         return qianDuan1;
     }
     private List<?> getItemCatList(Long parentId){

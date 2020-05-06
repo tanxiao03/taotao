@@ -1,9 +1,7 @@
 package com.taotao.service;
 
-import com.taotao.pojo.ImgDateResult;
-import com.taotao.pojo.LayuiResult;
-import com.taotao.pojo.TaotaoResult;
-import com.taotao.pojo.TbItem;
+import com.taotao.pojo.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -19,4 +17,5 @@ public interface ItemService {
     ImgDateResult addPicture(String filename, byte[] bytes);
 
     TaotaoResult addItem(TbItem tbItem,String itemDesc);
+
 }

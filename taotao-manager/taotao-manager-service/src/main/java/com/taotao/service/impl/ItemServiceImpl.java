@@ -1,5 +1,7 @@
 package com.taotao.service.impl;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.taotao.constant.FTPConstant;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
@@ -11,10 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -90,23 +96,34 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public ImgDateResult addPicture(String filename, byte[] bytes) {
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String filePath = simpleDateFormat.format(date);
-        String fileName = IDUtils.genImageName()+filename.substring(filename.lastIndexOf("."));
-        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-        boolean b = FtpUtil.uploadFile(FTPConstant.FTP_ADDRESS,FTPConstant.FTP_PORT,FTPConstant.FTP_USERNAME,FTPConstant.FTP_PASSWORD,FTPConstant.FILI_UPLOAD_PATH,filePath,fileName,bis);
-        if (b){
-            ImgData imgData = new ImgData();
-            imgData.setSrc(FTPConstant.IMAGE_BASE_URL+"/"+filePath+"/"+fileName);
-            ImgDateResult imgDateResult = new ImgDateResult();
-            imgDateResult.setCode(0);
-            imgDateResult.setMsg("");
-            imgDateResult.setData(imgData);
-            System.out.println(imgData.getSrc());
-            return imgDateResult;
+        Properties properties = new Properties();
+        try {
+            FileInputStream fis = new FileInputStream("E:\\阿里云OSS.txt");
+            properties.load(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
+        String fileName = IDUtils.genImageName()+filename.substring(filename.lastIndexOf("."));
+        /*阿里云*/
+        String endpoint = properties.getProperty("endpoint");
+        String accessKeyId = properties.getProperty("accessKeyId");
+        String accessKeySecret = properties.getProperty("accessKeySecret");
+        String bucketName = properties.getProperty("bucketName");
+        String objectName = properties.getProperty("objectName");
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        /*阿里云图片服务器对象*/
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        ossClient.putObject(bucketName,objectName+filename,bis);
+        ImgData imgData = new ImgData();
+        imgData.setSrc("https://"+bucketName+".oss-cn-chengdu.aliyuncs.com/images/"+filename);
+        ImgDateResult imgDateResult = new ImgDateResult();
+        imgDateResult.setCode(0);
+        imgDateResult.setMsg("");
+        imgDateResult.setData(imgData);
+        System.out.println(imgData.getSrc());
+        return imgDateResult;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.taotao.mapper;
 
 
+import com.taotao.pojo.SearchItem;
 import com.taotao.pojo.TbItem;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -27,4 +28,10 @@ public interface TbItemMapper {
     int findTbItemCountBySearch(@Param("title")String title, @Param("priceMin")Integer priceMin, @Param("priceMax")Integer priceMax, @Param("cid")Long cid);
 
     int addItem(TbItem tbItem);
+
+    /**
+     * 商品搜索功能（多表查询）
+     * @return
+     */
+    List<SearchItem> findSearchItemAll();
 }
