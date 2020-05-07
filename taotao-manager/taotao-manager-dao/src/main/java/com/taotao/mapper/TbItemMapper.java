@@ -34,4 +34,11 @@ public interface TbItemMapper {
      * @return
      */
     List<SearchItem> findSearchItemAll();
+
+    /**
+     * 通过商品id查询寻到商品信息（solr同步）
+     * @param
+     * @return
+     */
+    SearchItem findSearchItemById(@Param("id") Long id);
 }

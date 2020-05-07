@@ -2,21 +2,22 @@ package com.taotao.service.impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-import com.taotao.constant.FTPConstant;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
 import com.taotao.pojo.*;
 import com.taotao.service.ItemService;
-import com.taotao.utils.FtpUtil;
 import com.taotao.utils.IDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
+
+import javax.jms.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,11 @@ public class ItemServiceImpl implements ItemService {
     private TbItemMapper tbItemMapper;
     @Autowired
     private TbItemDescMapper tbItemDescMapper;
+    @Autowired
+    private JmsTemplate jmsTemplate;
+    @Autowired
+    private Destination destination;
+
     @Override
     public TbItem findTbItemById(Long itemId) {
         TbItem tbItem = tbItemMapper.findTbItemById(itemId);
@@ -134,7 +140,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public TaotaoResult addItem(TbItem tbItem,String itemDesc) {
         //生成商品id
-        Long itemId = IDUtils.genItemId();
+        final Long itemId = IDUtils.genItemId();
         tbItem.setId(itemId);
         //生成当前时间作为创建和修改的时间
         Date date = new Date();
@@ -158,6 +164,17 @@ public class ItemServiceImpl implements ItemService {
         if (j<=0){
             return TaotaoResult.build(500,"商品描述信息添加失败");
         }
+        //代码走到这里意味着商品添加成功了，我们要做一个solr同步
+        //因此我们应该发布一个消息到消息队列里面去
+        //提供给search-service来使用
+        jmsTemplate.send(destination, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage();
+                textMessage.setText(itemId+"");
+                return textMessage;
+            }
+        });
         return TaotaoResult.build(200,"商品信息添加成功");
     }
 }
