@@ -97,10 +97,11 @@ $(function(){
 					data : "cId="+cId,
 					dataType : "json",
 					success : function(message) {
-					if (message.status == 200) {
+
+                        if (message.status == 200) {
 						var groupVal = message.data;
 						$.each(groupVal, function(i, n){
-							 $("#param").append("<h2 style='background-color: #EAEAEA;text-align: center;'>"+n.groupName+"</h2>");
+                            $("#param").append("<h2 style='background-color: #EAEAEA;text-align: center;'>"+n.groupName+"</h2>");
 							 $.each(n.paramKeys, function(j, n2){
 								 $("#param").append("<span>"+n2.paramName+"</span><input type='text'name='paramValue' class='layui-input'/><br/>");
 								 paramKeyIdsArr.push(n2.id);

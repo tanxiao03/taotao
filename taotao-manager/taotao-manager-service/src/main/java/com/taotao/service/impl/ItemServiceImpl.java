@@ -134,6 +134,7 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * 添加商品信息
+     * 同时进行solr同步操作（发送消息到消息队列）
      * @param tbItem
      * @return
      */

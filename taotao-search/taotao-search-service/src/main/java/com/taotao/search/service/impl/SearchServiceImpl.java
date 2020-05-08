@@ -59,6 +59,12 @@ public class SearchServiceImpl implements SearchService {
         return TaotaoResult.build(500,"导入失败");
     }
 
+    /**
+     * 使用solr进行搜索
+     * @param query 页面传递的条件
+     * @param page 当前页码
+     * @return
+     */
     @Override
     public SearchResult findItemSearch(String query, Integer page) {
         SearchResult searchResult = new SearchResult();
@@ -126,6 +132,10 @@ public class SearchServiceImpl implements SearchService {
         return null;
     }
 
+    /**
+     * solr同步（将新添加的商品存入文档库中）
+     * @param item
+     */
     @Override
     public void addSearchItem(SearchItem item) {
         try {

@@ -13,6 +13,13 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
 
+    /**
+     * 使用solr进行搜索（solr搜索是指将数据库中的数据放入solr文档库中，进行搜索的时候直接从文档库中搜索）
+     * @param query
+     * @param page
+     * @param model
+     * @return
+     */
     @RequestMapping("/search")
     public String showSearch(@RequestParam("q") String query, @RequestParam(value = "page",defaultValue = "1") Integer page, Model model){
         SearchResult result = searchService.findItemSearch(query,page);

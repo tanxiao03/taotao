@@ -4,5 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.taotao.mapper.TbitemparamgroupMapper">
+    <select id="findItemGroup" resultType="com.taotao.pojo.GroupResult">
+        SELECT * FROM tbitemparamgroup WHERE itemCatId = #{cId}
+    </select>
 
+    <select id="findItemKey" resultType="com.taotao.pojo.KeyResult">
+        SELECT * FROM tbitemparamkey WHERE groupId = #{id}
+    </select>
+
+    <insert id="addItemGroup" >
+        INSERT INTO tbitemparamgroup (groupName, itemCatId) VALUES (#{split},#{cId})
+    </insert>
+
+    <select id="findItemGroupId" resultType="int">
+        SELECT * FROM tbitemparamgroup WHERE groupName = #{split} AND itemCatId = #{cId}
+    </select>
+
+    <select id="addKeyGroup">
+        INSERT INTO tbitemparamkey (paramName, groupId) VALUES (#{split},#{id})
+    </select>
 </mapper>

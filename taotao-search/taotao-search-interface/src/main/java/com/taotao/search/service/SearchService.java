@@ -19,5 +19,9 @@ public interface SearchService {
      */
     SearchResult findItemSearch(String query, Integer page);
 
+    /**
+     * solr同步
+     * @param item
+     */
     void addSearchItem(SearchItem item);
 }

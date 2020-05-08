@@ -91,7 +91,7 @@ table.on('toolbar(itemToolBar)',function(obj) {
 						dataType : "json",
 						success : function(message) {
 						if (message.status == 200) {
-							layer.alert(message.msg);
+							layer.alert('删除商品成功');
 							table.reload('reloadTable',{});
 						} else {
 							layer.alert(message.msg);

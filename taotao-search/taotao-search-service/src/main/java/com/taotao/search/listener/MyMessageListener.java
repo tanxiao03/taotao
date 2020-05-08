@@ -16,12 +16,17 @@ public class MyMessageListener implements MessageListener{
     @Autowired
     private SearchService searchService;
 
+    /**
+     * solr同步（接收消息）
+     * @param message
+     */
     @Override
     public void onMessage(Message message) {
         TextMessage textMessage = (TextMessage)message;
         try {
             String id = textMessage.getText();
             SearchItem item = tbItemMapper.findSearchItemById(Long.valueOf(id));
+            //调用searchService中的方法将新添加的商品存入文档库中
             searchService.addSearchItem(item);
         } catch (JMSException e) {
             e.printStackTrace();

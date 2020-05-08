@@ -57,7 +57,7 @@ $(function(){
 					dataType : "json",
 					success : function(message) {
 					if (message.status == 200) {
-						layer.alert("该分类已经有规格参数模板了，如果需要修改，请去规格参数模板修改页面完成");
+						//layer.alert("该分类已经有规格参数模板了，如果需要修改，请去规格参数模板修改页面完成");
 					
 					} else {
 						$("#paramTemplate").show();

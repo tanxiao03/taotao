@@ -11,6 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class GlobalExceptionReslover implements HandlerExceptionResolver {
     Logger logger = LoggerFactory.getLogger(GlobalExceptionReslover.class);
+
+    /**
+     * 全局异常处理
+     * @param request
+     * @param response
+     * @param handler
+     * @param ex
+     * @return
+     */
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         logger.error("系统发生异常",ex);
