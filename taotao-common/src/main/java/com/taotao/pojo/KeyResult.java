@@ -7,6 +7,8 @@ public class KeyResult implements Serializable {
     private String paramName;
     private Long groupId;
     private String paramGroup;
+    private TbItemParamValue tbItemParamValue;
+
 
     @Override
     public String toString() {
@@ -16,6 +18,14 @@ public class KeyResult implements Serializable {
                 ", groupId=" + groupId +
                 ", paramGroup='" + paramGroup + '\'' +
                 '}';
+    }
+
+    public TbItemParamValue getTbItemParamValue() {
+        return tbItemParamValue;
+    }
+
+    public void setTbItemParamValue(TbItemParamValue tbItemParamValue) {
+        this.tbItemParamValue = tbItemParamValue;
     }
 
     public int getId() {

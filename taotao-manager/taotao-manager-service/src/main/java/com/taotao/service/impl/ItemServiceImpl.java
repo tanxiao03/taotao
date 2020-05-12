@@ -4,6 +4,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
+import com.taotao.mapper.TbItemParamMapper;
 import com.taotao.pojo.*;
 import com.taotao.service.ItemService;
 import com.taotao.utils.IDUtils;
@@ -33,6 +34,8 @@ public class ItemServiceImpl implements ItemService {
     private JmsTemplate jmsTemplate;
     @Autowired
     private Destination destination;
+    @Autowired
+    private TbItemParamMapper tbItemParamMapper;
 
     @Override
     public TbItem findTbItemById(Long itemId) {
@@ -136,10 +139,11 @@ public class ItemServiceImpl implements ItemService {
      * 添加商品信息
      * 同时进行solr同步操作（发送消息到消息队列）
      * @param tbItem
-     * @return
+     * @param paramKeyIds
+     *@param paramValue @return
      */
     @Override
-    public TaotaoResult addItem(TbItem tbItem,String itemDesc) {
+    public TaotaoResult addItem(TbItem tbItem, String itemDesc, List<Integer> paramKeyIds, List<String> paramValue) {
         //生成商品id
         final Long itemId = IDUtils.genItemId();
         tbItem.setId(itemId);
@@ -165,6 +169,18 @@ public class ItemServiceImpl implements ItemService {
         if (j<=0){
             return TaotaoResult.build(500,"商品描述信息添加失败");
         }
+
+        for (int x = 0;x<paramKeyIds.size();x++){
+            TbItemParamValue tbItemParamValue = new TbItemParamValue();
+            tbItemParamValue.setItemId(itemId);
+            tbItemParamValue.setParamId(paramKeyIds.get(x));
+            tbItemParamValue.setParamValue(paramValue.get(x));
+            int y = tbItemParamMapper.addGroupValue(tbItemParamValue);
+            if (y<=0){
+                return TaotaoResult.build(500,"商品规格信息添加失败");
+            }
+        }
+
         //代码走到这里意味着商品添加成功了，我们要做一个solr同步
         //因此我们应该发布一个消息到消息队列里面去
         //提供给search-service来使用

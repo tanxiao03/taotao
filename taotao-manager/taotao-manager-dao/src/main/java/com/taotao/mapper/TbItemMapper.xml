@@ -87,4 +87,8 @@
           a.id = c.itemId
         WHERE a.id = #{id}
     </select>
+
+    <select id="findTbItem" resultType="com.taotao.pojo.TbItem">
+        SELECT * FROM tbitem WHERE id = #{itemId}
+    </select>
 </mapper>

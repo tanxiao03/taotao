@@ -90,8 +90,8 @@ public class ItemController {
      */
     @RequestMapping("/addItem")
     @ResponseBody
-    public TaotaoResult addItem(TbItem tbItem,String itemDesc){
-        TaotaoResult taotaoResult = itemService.addItem(tbItem,itemDesc);
+    public TaotaoResult addItem(TbItem tbItem,String itemDesc,@RequestParam(value = "paramKeyIds[]",required = false)List<Integer> paramKeyIds,@RequestParam(value = "paramValue[]",required = false)List<String> paramValue){
+        TaotaoResult taotaoResult = itemService.addItem(tbItem,itemDesc,paramKeyIds,paramValue);
         return taotaoResult;
     }
 }
