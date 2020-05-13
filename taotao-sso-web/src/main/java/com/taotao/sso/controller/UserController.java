@@ -1,14 +1,23 @@
 package com.taotao.sso.controller;
 
+import com.taotao.constant.RedisConstant;
 import com.taotao.pojo.TaotaoResult;
 import com.taotao.pojo.TbUser;
 import com.taotao.sso.service.UserService;
+import com.taotao.utils.CookieUtils;
+import com.taotao.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/user")
@@ -20,13 +29,18 @@ public class UserController {
      * 用户校验
      * @param param
      * @param type
-     * @return
+     * @return 用jsonp的形式解决跨域问题
      */
-    @RequestMapping(value = "/check/{param}/{type}",method = RequestMethod.GET)
+    @RequestMapping(value = "/check/{param}/{type}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8")
     @ResponseBody
-    public TaotaoResult userCheck(@PathVariable String param,@PathVariable Integer type){
+    public Object userCheck(@PathVariable String param,@PathVariable Integer type,String callback){
         TaotaoResult taotaoResult = userService.findUser(param,type);
-        return taotaoResult;
+        if (StringUtils.isNotBlank(callback)){
+            MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(taotaoResult);
+            mappingJacksonValue.setJsonpFunction(callback);
+            return mappingJacksonValue;
+        }
+        return JsonUtils.objectToJson(taotaoResult);
     }
 
     /**
@@ -45,25 +59,30 @@ public class UserController {
      * 用户登录
      * @param userName
      * @param passWord
-     * @return
+     * @return 完成登录之后需要跨域传输数据
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public TaotaoResult userLogin(String userName,String passWord){
+    public TaotaoResult userLogin(String userName, String passWord, HttpServletRequest request, HttpServletResponse response){
         TaotaoResult taotaoResult = userService.findUserByNameAndPass(userName,passWord);
+        CookieUtils.setCookie(request,response, RedisConstant.TT_TOKEN,taotaoResult.getData().toString());
         return taotaoResult;
     }
 
     /**
      * 通过token获取用户
      * @param token
-     * @return
+     * @return 以jsonp的形式获取
      */
-    @RequestMapping(value = "/token/{token}",method = RequestMethod.GET)
+    @RequestMapping(value = "/token/{token}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8")
     @ResponseBody
-    public TaotaoResult getUserByToken(@PathVariable String token){
+    public String getUserByToken(@PathVariable String token,String callback){
+
         TaotaoResult taotaoResult = userService.getUserByToken(token);
-        return taotaoResult;
+        if (StringUtils.isNotBlank(callback)){
+            return callback+"("+JsonUtils.objectToJson(taotaoResult)+");";
+        }
+        return JsonUtils.objectToJson(taotaoResult);
     }
 
     /**

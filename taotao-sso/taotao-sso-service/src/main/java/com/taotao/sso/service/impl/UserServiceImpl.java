@@ -152,12 +152,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public TaotaoResult deleteUserByToken(String token) {
-        String json = jedisClient.get(RedisConstant.USER_INFO + ":" + token);
-        if (json != null){
-            Long del = jedisClient.del(RedisConstant.USER_INFO + ":" + token);
-            if (del <= 0){
-                return TaotaoResult.build(500,"删除失败");
-            }
+        Long del = jedisClient.del(RedisConstant.USER_INFO + ":" + token);
+        if (del <= 0){
+            return TaotaoResult.build(500,"退出失败");
         }
         return TaotaoResult.ok();
     }
