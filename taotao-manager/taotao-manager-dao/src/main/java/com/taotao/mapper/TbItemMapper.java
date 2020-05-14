@@ -48,4 +48,11 @@ public interface TbItemMapper {
      * @return
      */
     TbItem findTbItem(@Param("itemId") Long itemId);
+
+    /**
+     * 购物车页面，根据id查询商品信息
+     * @param itemId
+     * @return
+     */
+    TbItem getItemByItemId(@Param("itemId")Long itemId);
 }

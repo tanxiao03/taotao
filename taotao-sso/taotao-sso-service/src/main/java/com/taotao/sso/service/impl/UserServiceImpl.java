@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
         if(tbUser==null){
             jedisClient.set(RedisConstant.USER_INFO+":"+ token,"null");
             jedisClient.expire(RedisConstant.USER_INFO + ":" + token, RedisConstant.USER_SHORT_EXPIRE+rand);
-            return TaotaoResult.build(500,"用户名或密码有误请重新输入");
+            return TaotaoResult.build(500,"用户名或密码有误请重新输入","null");
         }
         tbUser.setPassWord(null);
         jedisClient.set(RedisConstant.USER_INFO+":"+ token, JsonUtils.objectToJson(tbUser));

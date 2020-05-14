@@ -91,4 +91,8 @@
     <select id="findTbItem" resultType="com.taotao.pojo.TbItem">
         SELECT * FROM tbitem WHERE id = #{itemId}
     </select>
+
+    <select id="getItemByItemId" resultType="com.taotao.pojo.TbItem">
+        SELECT * FROM tbitem WHERE id = #{itemId}
+    </select>
 </mapper>

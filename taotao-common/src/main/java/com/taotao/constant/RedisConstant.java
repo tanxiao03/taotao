@@ -9,4 +9,5 @@ public interface RedisConstant {
     Integer USER_SESSION_EXPIRE = 60*60;
     Integer USER_SHORT_EXPIRE = 60*5;
     String TT_TOKEN = "TT_TOKEN";
+
 }

@@ -18,4 +18,10 @@ public interface ItemService {
 
     TaotaoResult addItem(TbItem tbItem, String itemDesc, List<Integer> paramKeyIds, List<String> paramValue);
 
+    /**
+     * 购物车页面，根据id查询商品信息
+     * @param itemId
+     * @return
+     */
+    TbItem getItemByItemId(Long itemId);
 }

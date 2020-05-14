@@ -194,4 +194,15 @@ public class ItemServiceImpl implements ItemService {
         });
         return TaotaoResult.build(200,"商品信息添加成功");
     }
+
+    /**
+     * 购物车页面，根据id查询商品信息
+     * @param itemId
+     * @return
+     */
+    @Override
+    public TbItem getItemByItemId(Long itemId) {
+        TbItem tbItem = tbItemMapper.getItemByItemId(itemId);
+        return tbItem;
+    }
 }
