@@ -59,7 +59,7 @@ public class CartController {
             cartList.add(tbItem);
         }
         //将购物车的商品信息存入cookie中
-        CookieUtils.setCookie(request, response, "TT_CART", JsonUtils.objectToJson(cartList),60*60*24*7, true);
+        CookieUtils.setCookie(request, response, RedisConstant.TT_CART, JsonUtils.objectToJson(cartList),RedisConstant.CART_EXPIRE, true);
         return "cartSuccess";
     }
 
@@ -69,7 +69,7 @@ public class CartController {
      * @return
      */
     public List<TbItem> getCartList(HttpServletRequest request){
-        String cookieValue = CookieUtils.getCookieValue(request,"TT_CART", true);
+        String cookieValue = CookieUtils.getCookieValue(request,RedisConstant.TT_CART, true);
         if (cookieValue != null){
             List<TbItem> tbItems = JsonUtils.jsonToList(cookieValue, TbItem.class);
             return tbItems;
@@ -107,7 +107,7 @@ public class CartController {
                 break;
             }
         }
-        CookieUtils.setCookie(request,response,"TT_CART",JsonUtils.objectToJson(cartList),60*60*24*7,true);
+        CookieUtils.setCookie(request,response,RedisConstant.TT_CART,JsonUtils.objectToJson(cartList),RedisConstant.CART_EXPIRE,true);
         return "redirect:/cart/cart.html";
     }
 
@@ -126,7 +126,7 @@ public class CartController {
         for (TbItem tbitem:cartList) {
             tbitem.setNum(num);
         }
-        CookieUtils.setCookie(request,response,"TT_CART",JsonUtils.objectToJson(cartList),60*60*24*7,true);
+        CookieUtils.setCookie(request,response,RedisConstant.TT_CART,JsonUtils.objectToJson(cartList),RedisConstant.CART_EXPIRE,true);
         return TaotaoResult.ok();
     }
 }
