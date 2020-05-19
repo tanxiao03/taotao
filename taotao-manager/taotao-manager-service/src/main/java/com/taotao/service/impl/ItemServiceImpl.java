@@ -114,7 +114,7 @@ public class ItemServiceImpl implements ItemService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String fileName = IDUtils.genImageName()+filename.substring(filename.lastIndexOf("."));
+        String fileNames = IDUtils.genImageName()+filename.substring(filename.lastIndexOf("."));
         /*阿里云*/
         String endpoint = properties.getProperty("endpoint");
         String accessKeyId = properties.getProperty("accessKeyId");
@@ -124,14 +124,13 @@ public class ItemServiceImpl implements ItemService {
         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
         /*阿里云图片服务器对象*/
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        ossClient.putObject(bucketName,objectName+filename,bis);
+        ossClient.putObject(bucketName,objectName+fileNames,bis);
         ImgData imgData = new ImgData();
-        imgData.setSrc("https://"+bucketName+".oss-cn-chengdu.aliyuncs.com/images/"+filename);
+        imgData.setSrc("https://"+bucketName+".oss-cn-chengdu.aliyuncs.com/images/"+fileNames);
         ImgDateResult imgDateResult = new ImgDateResult();
         imgDateResult.setCode(0);
         imgDateResult.setMsg("");
         imgDateResult.setData(imgData);
-        System.out.println(imgData.getSrc());
         return imgDateResult;
     }
 

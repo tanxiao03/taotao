@@ -1,9 +1,10 @@
 package com.taotao.controller;
 
+import com.taotao.content.service.TbcontentcategoryService;
 import com.taotao.pojo.ItemCatResult;
 import com.taotao.pojo.LayuiResult;
 import com.taotao.pojo.TbContent;
-import com.taotao.service.TbcontentcategoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

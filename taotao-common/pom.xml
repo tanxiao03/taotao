@@ -13,8 +13,6 @@
     <!-- 依赖工具类的jar包 jar是可以不用写的 -->
     <dependencies>
 
-
-
         <!-- 时间操作组件 -->
         <dependency>
             <groupId>joda-time</groupId>
