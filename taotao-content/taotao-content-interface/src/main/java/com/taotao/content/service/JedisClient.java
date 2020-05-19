@@ -1,4 +1,4 @@
-package com.taotao.service;
+package com.taotao.content.service;
 
 public interface JedisClient {
     String set(String key, String value);

@@ -1,10 +1,10 @@
-package com.taotao.service.impl;
+package com.taotao.content.service.impl;
 
+import com.taotao.content.service.JedisClient;
+import com.taotao.content.service.TbcontentcategoryService;
 import com.taotao.mapper.TbContentCategoryMapper;
 import com.taotao.mapper.TbContentMapper;
 import com.taotao.pojo.*;
-import com.taotao.service.JedisClient;
-import com.taotao.service.TbcontentcategoryService;
 import com.taotao.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class TbcontentcategoryServiceImpl implements TbcontentcategoryService{
+public class TbcontentcategoryServiceImpl implements TbcontentcategoryService {
     @Autowired
     private TbContentCategoryMapper tbContentCategoryMapper;
 

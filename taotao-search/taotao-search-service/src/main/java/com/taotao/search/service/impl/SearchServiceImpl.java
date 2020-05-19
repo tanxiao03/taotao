@@ -69,11 +69,11 @@ public class SearchServiceImpl implements SearchService {
     public SearchResult findItemSearch(String query, Integer page) {
         SearchResult searchResult = new SearchResult();
         try {
-            String str = new String(query.getBytes("iso-8859-1"),"UTF-8");
+
             SolrQuery solrQuery = new SolrQuery();
 
             //设置用户输入的内容
-            solrQuery.setQuery(str);
+            solrQuery.setQuery(query);
 
             //设置默认域 从默认域中搜索
             solrQuery.set("df","item_keywords");
@@ -125,8 +125,6 @@ public class SearchServiceImpl implements SearchService {
 
             return searchResult;
         } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return null;
