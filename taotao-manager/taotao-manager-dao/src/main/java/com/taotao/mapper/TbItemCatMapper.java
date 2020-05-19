@@ -12,5 +12,10 @@ public interface TbItemCatMapper {
     @Select("SELECT * FROM tbitemcat WHERE parentId = #{id}")
     List<TbItemCat> findZtree(@Param("id") Long id);
 
-
+    /**
+     * 统计图（后台）
+     * @return
+     */
+    @Select("SELECT * FROM tbitemcat WHERE parentId = 0")
+    List<TbItemCat> findStatisticsItem();
 }

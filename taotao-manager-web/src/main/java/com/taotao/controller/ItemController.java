@@ -15,6 +15,12 @@ import java.util.List;
 public class ItemController {
     @Autowired
     private ItemService itemService;
+
+    /**
+     * 通过id查询商品（后台页面）
+     * @param itemId
+     * @return
+     */
     @RequestMapping("/{itemId}")
     @ResponseBody
     public TbItem findTbItem(@PathVariable Long itemId){
@@ -22,7 +28,12 @@ public class ItemController {
         return tbItemById;
     }
 
-
+    /**
+     * 分页展示（后台页面）
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/showItemPage")
     @ResponseBody
     public LayuiResult showItemPage(Integer page,Integer limit){
@@ -30,6 +41,11 @@ public class ItemController {
         return layuiResult;
     }
 
+    /**
+     * 商品删除（后台页面）
+     * @param items
+     * @return
+     */
     @RequestMapping("/itemDelete")
     @ResponseBody
     public TaotaoResult itemDelete(@RequestBody List<TbItem> items){

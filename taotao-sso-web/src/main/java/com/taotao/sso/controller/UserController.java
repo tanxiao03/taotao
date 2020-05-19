@@ -6,6 +6,10 @@ import com.taotao.pojo.TbUser;
 import com.taotao.sso.service.UserService;
 import com.taotao.utils.CookieUtils;
 import com.taotao.utils.JsonUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/user")
+@Api(value = "登录", tags = "UserController", description = "登录")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -33,6 +38,13 @@ public class UserController {
      */
     @RequestMapping(value = "/check/{param}/{type}",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE+";charset=utf-8")
     @ResponseBody
+    @ApiOperation(value = "用户校验", notes = "用户校验")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "param",value = "用户信息",required = true,dataType = "String"),
+            @ApiImplicitParam(name = "type",value = "校验类型",required = true,dataType = "Integer"),
+            @ApiImplicitParam(name = "callback",value = "jsonp形式",required = true,dataType = "String")
+
+    })
     public Object userCheck(@PathVariable String param,@PathVariable Integer type,String callback){
         TaotaoResult taotaoResult = userService.findUser(param,type);
         if (StringUtils.isNotBlank(callback)){

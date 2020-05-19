@@ -37,6 +37,11 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private TbItemParamMapper tbItemParamMapper;
 
+    /**
+     * 后台通过id查询商品
+     * @param itemId
+     * @return
+     */
     @Override
     public TbItem findTbItemById(Long itemId) {
         TbItem tbItem = tbItemMapper.findTbItemById(itemId);

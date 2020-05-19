@@ -57,6 +57,24 @@ public class ItemCatServiceImpl implements ItemCatService {
         jedisClient.set(ITEMCAT,JsonUtils.objectToJson(list));
         return qianDuan1;
     }
+
+    /**
+     * 统计图（后台）
+     * @return
+     */
+    @Override
+    public List<StatisticsItem> findStatisticsItem() {
+        List<StatisticsItem> statisticsItemList = new ArrayList<StatisticsItem>();
+        List<TbItemCat> tbItemCats = tbItemCatMapper.findStatisticsItem();
+        for (TbItemCat tbItemCat :tbItemCats) {
+            StatisticsItem statisticsItem = new StatisticsItem();
+            statisticsItem.setName(tbItemCat.getName());
+            statisticsItem.setValue(tbItemCat.getId().intValue());
+            statisticsItemList.add(statisticsItem);
+        }
+        return statisticsItemList;
+    }
+
     private List<?> getItemCatList(Long parentId){
         int count = 0;
         List list = new ArrayList();
