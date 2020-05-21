@@ -13,6 +13,6 @@ public interface RedisConstant {
     Integer CART_EXPIRE = 60*60*24*7;
     String SSO_LOGIN_URL = "http://localhost:8088/page/login";
     String ORDER_GEN_KEY = "ORDER_GEN_KEY";
-    String ORDER_ID_BEGIN = "100544";
+    String ORDER_ID_BEGIN = "100545";
     String ORDER_ITEM_ID_GEN_KEY = "20190816";
 }

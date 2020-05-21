@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
+    int num = 0;
     @Autowired
     private TbUserMapper tbUserMapper;
     @Autowired
@@ -96,6 +97,7 @@ public class UserServiceImpl implements UserService {
         Date date = new Date();
         tbUser.setCreated(date);
         tbUser.setUpdated(date);
+        tbUser.setStatus(0);
         //MD5加密
         String md5Pass = DigestUtils.md5DigestAsHex(tbUser.getPassWord().getBytes());
         //密文密码
@@ -123,6 +125,18 @@ public class UserServiceImpl implements UserService {
             jedisClient.set(RedisConstant.USER_INFO+":"+ token,"null");
             jedisClient.expire(RedisConstant.USER_INFO + ":" + token, RedisConstant.USER_SHORT_EXPIRE+rand);
             return TaotaoResult.build(500,"用户名或密码有误请重新输入","null");
+        }
+        if (tbUser.getStatus() == 0){
+            //进入这里，代表这个用户是今天第一次登陆，那么日活数加一
+            tbUser.setStatus(1);
+            //修改数据库中的用户状态
+            tbUserMapper.updateUser(1,tbUser.getId());
+            //日活数加一,这个方法可以自增一
+            jedisClient.incr("USERSTATUS");
+            if (num == 0){
+                jedisClient.expire("USERSTATUS",60);
+                num = 1;
+            }
         }
         tbUser.setPassWord(null);
         jedisClient.set(RedisConstant.USER_INFO+":"+ token, JsonUtils.objectToJson(tbUser));
@@ -157,5 +171,15 @@ public class UserServiceImpl implements UserService {
             return TaotaoResult.build(500,"退出失败");
         }
         return TaotaoResult.ok();
+    }
+
+    /**
+     * 定时器方法
+     */
+    public void updateAllUsers(){
+        //定时器触发后，将所有的用户状态都改成0
+        tbUserMapper.updateAllUser(0);
+        //定时器触发后，将num全局变量改为0
+        num = 0;
     }
 }

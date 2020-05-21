@@ -4,6 +4,7 @@ import com.taotao.pojo.TbUser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 public interface TbUserMapper {
 
@@ -36,7 +37,7 @@ public interface TbUserMapper {
      * @param tbUser
      * @return
      */
-    @Insert("INSERT INTO tbuser(userName, passWord, phone, email, created, updated) VALUE (#{userName},#{passWord},#{phone},#{email},#{created},#{updated})")
+    @Insert("INSERT INTO tbuser(userName, passWord, phone, email, created, updated,status) VALUE (#{userName},#{passWord},#{phone},#{email},#{created},#{updated},#{status})")
     int addUser(TbUser tbUser);
 
     /**
@@ -46,4 +47,19 @@ public interface TbUserMapper {
      */
     @Select("SELECT * FROM tbuser WHERE userName = #{userName} AND passWord = #{passWord}")
     TbUser findUserByNameAndPass(@Param("userName")String userName, @Param("passWord")String passWord);
+
+    /**
+     * 修改数据库中的用户状态
+     * @param i
+     * @param id
+     */
+    @Update("UPDATE tbuser SET status = #{i} WHERE id = #{id}")
+    void updateUser(@Param("i")int i,@Param("id") Long id);
+
+    /**
+     * 定时器触发后，将所有的用户状态都改成0
+     * @param i
+     */
+    @Update("UPDATE tbuser SET status = #{i}")
+    void updateAllUser(int i);
 }

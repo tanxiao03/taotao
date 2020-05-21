@@ -127,13 +127,13 @@ body, html, #allmap {
 							<div class="layui-card">
 								<div class="layui-card-header">
 									<div>
-										<span>访问量</span> <span style="float: right; margin-top: 13px"
+										<span>日活量</span> <span style="float: right; margin-top: 13px"
 											class="layui-badge layui-bg-blue">周</span>
 									</div>
 								</div>
 								<div class="layui-card-body">
-									<span style="font-size: 36px; color: #676767">99999</span></br> </br> <span
-										style="color: #676767">总访问量</span> <i style="float: right;"
+									<span style="font-size: 36px; color: #676767">${userStatus}</span></br> </br> <span
+										style="color: #676767">日活量</span> <i style="float: right;"
 										class="layui-icon layui-icon-flag"></i>
 								</div>
 							</div>

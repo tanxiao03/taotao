@@ -86,7 +86,7 @@
     <dubbo:service interface="com.taotao.service.ItemService" ref="itemServiceImpl" timeout="30000" />
     <dubbo:service interface="com.taotao.service.ItemCatService" ref="itemCatServiceImpl" timeout="30000" />
     <dubbo:service interface="com.taotao.service.ItemGroupService" ref="itemGroupServiceImpl" timeout="30000" />
-
+    <dubbo:service interface="com.taotao.service.JedisClient" ref="jedisClientPool" timeout="30000" />
 
     <!--整合JMS-->
     <!--activeMQ连接工厂对象-->

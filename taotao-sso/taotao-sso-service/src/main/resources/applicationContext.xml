@@ -63,7 +63,7 @@
         </tx:attributes>
     </tx:advice>
     <!-- 切面 -->
-    <aop:config>
+    <aop:config proxy-target-class="true">
         <aop:advisor advice-ref="txAdvice"
                      pointcut="execution(* com.taotao.sso.service.*.*(..))" />
     </aop:config>
@@ -87,6 +87,27 @@
     <dubbo:service interface="com.taotao.sso.service.UserService" ref="userServiceImpl" timeout="30000" />
 
 
-
+    <!--注入任务处理类bean-->
+    <bean id="userServiceImpl" class="com.taotao.sso.service.impl.UserServiceImpl"></bean>
+    <!-- 任务触发器详细信息bean -->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="userServiceImpl"></property>
+        <property name="targetMethod" value="updateAllUsers"></property>
+        <property name="concurrent" value="false" /><!-- 作业不并发调度  -->
+    </bean>
+    <!-- 定义trigger 触发器 -->
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail"></property>
+        <!-- 定义触发时间 每个一分钟该定时器触发一次 -->
+        <property name="cronExpression" value="0 */5 * * * ?"></property>
+    </bean>
+    <!-- 设置触发器调度工厂 -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>
