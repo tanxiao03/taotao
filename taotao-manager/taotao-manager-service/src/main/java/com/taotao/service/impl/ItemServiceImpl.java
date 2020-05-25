@@ -48,6 +48,12 @@ public class ItemServiceImpl implements ItemService {
         return tbItem;
     }
 
+    /**
+     * 分页展示（后台页面）
+     * @param page
+     * @param limit
+     * @return
+     */
     @Override
     public LayuiResult findTbItemByPage(Integer page, Integer limit) {
         LayuiResult layuiResult = new LayuiResult();
@@ -60,6 +66,13 @@ public class ItemServiceImpl implements ItemService {
         return layuiResult;
     }
 
+    /**
+     * 商品的上架、下架、删除
+     * @param items
+     * @param date
+     * @param type
+     * @return
+     */
     @Override
     public TaotaoResult updataItemById(List<TbItem> items, Date date, int type) {
         TaotaoResult taotaoResult = new TaotaoResult();

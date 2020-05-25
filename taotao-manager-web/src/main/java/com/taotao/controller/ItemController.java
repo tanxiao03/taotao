@@ -54,6 +54,11 @@ public class ItemController {
         return taotaoResult;
     }
 
+    /**
+     * 商品上架（后台页面）
+     * @param items
+     * @return
+     */
     @RequestMapping("/commodityUpperShelves")
     @ResponseBody
     public TaotaoResult commodityUpperShelves(@RequestBody List<TbItem> items){
@@ -62,6 +67,11 @@ public class ItemController {
         return taotaoResult;
     }
 
+    /**
+     * 商品下架（后台页面）
+     * @param items
+     * @return
+     */
     @RequestMapping("/commodityLowerShelves")
     @ResponseBody
     public TaotaoResult commodityLowerShelves(@RequestBody List<TbItem> items){

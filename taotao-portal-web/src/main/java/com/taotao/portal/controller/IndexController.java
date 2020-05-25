@@ -34,6 +34,10 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * 前台页面商品分类展示
+     * @return
+     */
     @RequestMapping("/itemCat/all")
     @ResponseBody
     public String showItemCat(){

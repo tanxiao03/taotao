@@ -28,6 +28,11 @@ public class TbcontentcategoryServiceImpl implements TbcontentcategoryService {
     @Value("AD1")
     private String AD1;
 
+    /**
+     * 后台内容管理树形结构
+     * @param id
+     * @return
+     */
     @Override
     public List<ItemCatResult> findContentZtree(Long id) {
         List<ItemCatResult> list = new ArrayList<ItemCatResult>();
@@ -42,6 +47,13 @@ public class TbcontentcategoryServiceImpl implements TbcontentcategoryService {
         return list;
     }
 
+    /**
+     * 后台分页展示大广告信息
+     * @param categoryId
+     * @param page
+     * @param limit
+     * @return
+     */
     @Override
     public LayuiResult findContentTable(Long categoryId,Integer page,Integer limit) {
         LayuiResult layuiResult = new LayuiResult();
@@ -54,6 +66,13 @@ public class TbcontentcategoryServiceImpl implements TbcontentcategoryService {
         return layuiResult;
     }
 
+    /**
+     * 后台删除大广告信息
+     * @param tbContents
+     * @param page
+     * @param limit
+     * @return
+     */
     @Override
     public LayuiResult deleteContentByCategoryId(List<TbContent> tbContents, Integer page, Integer limit) {
         LayuiResult layuiResult = new LayuiResult();
@@ -85,6 +104,13 @@ public class TbcontentcategoryServiceImpl implements TbcontentcategoryService {
         return layuiResult;
     }
 
+    /**
+     * 后台添加大广告信息
+     * @param tbContent
+     * @param page
+     * @param limit
+     * @return
+     */
     @Override
     public LayuiResult addContent(TbContent tbContent, Integer page, Integer limit) {
         LayuiResult layuiResult = new LayuiResult();

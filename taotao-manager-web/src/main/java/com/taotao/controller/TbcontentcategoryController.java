@@ -19,6 +19,12 @@ import java.util.List;
 public class TbcontentcategoryController {
     @Autowired
     private TbcontentcategoryService tbcontentcategoryService;
+
+    /**
+     * 后台内容管理树形结构
+     * @param id
+     * @return
+     */
     @RequestMapping("/showContentZtree")
     @ResponseBody
     public List<ItemCatResult> showContentZtree(@RequestParam(value="id",defaultValue="0")Long id){
@@ -26,6 +32,13 @@ public class TbcontentcategoryController {
         return list;
     }
 
+    /**
+     * 后台分页展示大广告信息
+     * @param categoryId
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/showContentTable")
     @ResponseBody
     public LayuiResult showContentTable(Long categoryId,Integer page,Integer limit){
@@ -33,6 +46,13 @@ public class TbcontentcategoryController {
         return layuiResult;
     }
 
+    /**
+     * 后台删除大广告信息
+     * @param tbContents
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/deleteContentByCategoryId")
     @ResponseBody
     public LayuiResult deleteContentByCategoryId(@RequestBody List<TbContent> tbContents,@RequestParam(value="page",defaultValue="1")Integer page,@RequestParam(value="limit",defaultValue="10")Integer limit){
@@ -40,6 +60,13 @@ public class TbcontentcategoryController {
         return layuiResult;
     }
 
+    /**
+     * 后台添加大广告信息
+     * @param tbContent
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/addContent")
     @ResponseBody
     public LayuiResult addContent(TbContent tbContent,@RequestParam(value="page",defaultValue="1")Integer page,@RequestParam(value="limit",defaultValue="10")Integer limit){

@@ -100,6 +100,13 @@
             <artifactId>zkclient</artifactId>
         </dependency>
 
+        <!--支付宝沙箱依赖-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.3.49.ALL</version>
+        </dependency>
+
 
     </dependencies>
     <build>
